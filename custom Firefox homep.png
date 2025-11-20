@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accueil Firefox - Pierre</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background-image: url('lune-rouge.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      text-align: center;
+    }
+    .clock {
+      font-size: 4em;
+      margin-top: 40px;
+    }
+    .quote {
+      font-style: italic;
+      margin: 20px auto;
+      max-width: 600px;
+      font-size: 1.2em;
+    }
+    .search-bar {
+      margin: 30px auto;
+      max-width: 500px;
+    }
+    .search-bar input {
+      width: 80%;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+    }
+    .shortcuts {
+      margin: 30px auto;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .shortcuts a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      background: rgba(0,0,0,0.4);
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    .weather {
+      margin-top: 20px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue, Pierre</h1>
+  <div class="clock" id="clock">--:--</div>
+  <div class="quote" id="quote">Chargement de la citation...</div>
+
+  <div class="shortcuts">
+    <a href="https://www.google.com">Google</a>
+    <a href="https://www.youtube.com">YouTube</a>
+    <a href="https://fr.wikipedia.org">Wikipedia</a>
+    <a href="https://www.lemonde.fr">Le Monde</a>
+  </div>
+
+  <div class="search-bar">
+    <form action="https://www.google.com/search" method="get">
+      <input type="text" name="q" placeholder="Recherchez sur Google..." />
+    </form>
+  </div>
+
+  <div class="weather" id="weather">Chargement météo...</div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('clock').textContent = time;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    async function updateQuote() {
+      const quotes = [
+        "Le succès n'est pas final. L'échec n'est pas fatal. C'est le courage de continuer qui compte. – Winston Churchill",
+        "La vie, c’est comme une bicyclette, il faut avancer pour ne pas perdre l’équilibre. – Albert Einstein",
+        "Fais de ta vie un rêve, et d’un rêve, une réalité. – Antoine de Saint-Exupéry",
+        "Il n’y a qu’une façon d’échouer, c’est d’abandonner avant d’avoir réussi. – Georges Clémenceau"
+      ];
+      const index = new Date().getDate() % quotes.length;
+      document.getElementById('quote').textContent = quotes[index];
+    }
+    updateQuote();
+
+    async function updateWeather() {
+      const lat = 45.7686;
+      const lon = 3.0526;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const temp = Math.round(data.current_weather.temperature);
+        const hour = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        const day = new Date().toLocaleDateString('fr-FR', { weekday: 'long' });
+        document.getElementById('weather').textContent = `Royat • ${temp}°C • ${day} ${hour}`;
+      } catch (e) {
+        document.getElementById('weather').textContent = "Météo indisponible";
+      }
+    }
+    updateWeather();
+  </script>
+</body>
+</html>
+
