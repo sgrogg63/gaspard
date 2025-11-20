@@ -1,0 +1,13 @@
+const quotes = {
+  0: "Le bonheur est parfois caché dans l'inconnu. – Victor Hugo",
+  1: "Fais de ta vie un rêve, et d’un rêve une réalité. – Saint-Exupéry",
+  2: "Il n’y a qu’une façon d’échouer, c’est d’abandonner. – Rousseau",
+  3: "La vie est un défi à relever. – Mère Teresa",
+  4: "Le succès n’est pas la clé du bonheur. – Albert Schweitzer",
+  5: "Crois en toi et tout devient possible. – Anonyme",
+  6: "Chaque jour est une nouvelle chance. – Bouddha"
+};
+
+const today = new Date().getDay();
+document.getElementById("quote").textContent = quotes[today];
+

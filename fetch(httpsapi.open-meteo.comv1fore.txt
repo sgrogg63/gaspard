@@ -1,0 +1,13 @@
+fetch("https://api.open-meteo.com/v1/forecast?latitude=45.7701&longitude=3.0612&current_weather=true")
+  .then(response => response.json())
+  .then(data => {
+    const weather = data.current_weather;
+    const temp = Math.round(weather.temperature);
+    const time = new Date(weather.time).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    document.getElementById("weather").innerHTML = `Royat ${temp}°C<br>${time}`;
+  })
+  .catch(error => {
+    document.getElementById("weather").textContent = "Météo indisponible";
+    console.error("Erreur météo :", error);
+});
+
